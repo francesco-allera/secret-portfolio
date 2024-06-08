@@ -43,6 +43,7 @@ body[data-theme=light] {
 html, body {
   background-color: var(--color-page-background);
   color: var(--color-font-primary);
+  height: 100%;
 }
 
 .container {
@@ -54,95 +55,121 @@ html, body {
 }
 
 #loading {
-  height: 100vh;
-  height: 100dvh;
-  max-width: 1600px;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  transition: all;
-  transition-duration: 200ms;
-  transition-timing-function: ease-in-out;
-}
-#loading::before, #loading::after {
-  content: "";
-  display: block;
-  position: absolute;
-  border-radius: 10px;
-  animation-fill-mode: forwards;
-}
-#loading::after {
-  width: 16px;
-  height: 16px;
-  transform: translate(-50%, -50%);
-  top: -16px;
-  left: 50%;
+  width: 20px;
+  height: 20px;
   background-color: var(--color-font-primary);
   border: 3px solid;
-  animation-name: loading-after;
-  animation-delay: 200ms;
-  animation-duration: 3500ms;
+  border-radius: 20px;
+  position: fixed;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: -20px;
+  animation-name: loader;
+  animation-duration: 6000ms;
+  animation-delay: 300ms;
   animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+  transition: opacity 6000ms;
 }
 #loading::before {
+  content: "";
+  display: block;
   width: 0;
-  height: 10px;
-  transform: translateY(-50%);
-  top: 50%;
-  left: calc(25% + 1.5px);
+  position: relative;
+  left: 3px;
+  height: 14px;
   background-color: var(--color-font-secondary);
-  animation-name: loading-before;
-  animation-delay: 2150ms;
-  animation-duration: 2625ms;
-  animation-timing-function: ease-out;
+  border-radius: 7px;
+  animation-name: loader-before;
+  animation-duration: 3420ms;
+  animation-delay: 2580ms;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
 }
 
-@keyframes loading-after {
+@keyframes loader {
   0% {
-    top: -10px;
-    animation-timing-function: ease-in;
+    top: -20px;
+    width: 20px;
   }
-  16% {
+  8% {
     top: 50%;
-    animation-timing-function: ease-out;
+    height: 20px;
+    width: 20px;
   }
-  24% {
-    top: 41%;
-    animation-timing-function: ease-in;
+  10% {
+    top: calc(50% + 10px);
+    height: 10px;
+    width: 30px;
+  }
+  11% {
+    top: 50%;
+    height: 20px;
+    width: 20px;
+  }
+  15% {
+    top: 40%;
+    height: 20px;
+  }
+  18% {
+    top: 50%;
+    height: 20px;
+    width: 20px;
+  }
+  19% {
+    height: 15px;
+    width: 30px;
+  }
+  20% {
+    top: 50%;
+    height: 20px;
+    width: 20px;
+  }
+  22% {
+    top: 48%;
+  }
+  23% {
+    top: 50%;
+    width: 20px;
+    background-color: var(--color-font-primary);
   }
   28% {
-    top: 50%;
-    animation-timing-function: ease-in-out;
-  }
-  32% {
-    top: 50%;
-    background-color: var(--color-font-primary);
-    animation-timing-function: ease-out;
-  }
-  40% {
-    width: 16px;
+    width: 50%;
     background-color: inherit;
   }
-  50% {
+  98% {
+    top: 50%;
     width: 50%;
     background-color: inherit;
   }
   100% {
     top: 50%;
-    width: 50%;
-    background-color: inherit;
+    width: 0;
   }
 }
-@keyframes loading-before {
+@keyframes loader-before {
   0% {
-    width: 0%;
+    width: 0;
+    left: -1px;
   }
   50% {
-    width: 22.5%;
+    width: 50%;
+  }
+  98% {
+    width: calc(100% + 2px);
+    left: -1px;
+    background-color: var(--color-font-secondary);
+  }
+  99% {
+    background-color: var(--color-font-secondary);
   }
   100% {
-    width: calc(50% - 3px);
+    width: calc(100% + 2px);
+    left: -1px;
+    background-color: var(--color-font-primary);
   }
 }
+/* HTML: <div class="loader"></div> */
 
 /*# sourceMappingURL=style.css.map */

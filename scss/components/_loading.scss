@@ -2,109 +2,268 @@
 @use 'sass:math';
 @use '../abstracts/abstracts' as *;
 
-$duration: 3500ms;
-$delay: 200ms;
-$measure: 10px;
-$border: 3px;
+// $duration: 3500ms;
+// $delay: 200ms;
+// $measure: 10px;
+// $border: 3px;
+
 
 // @debug '#loading timing animations: ' + #{
-//     ($delay + $duration) + (($delay * 2) + (math.div($duration, 100) * 50) + (math.div($duration, 100) * 75))
+//     $delay + math.div($duration, 2) + $delay + (math.div($duration, 100) * 75)
 // };
-@debug '#loading timing animations: ' + #{
-    $delay + math.div($duration, 2) + $delay + (math.div($duration, 100) * 75)
-};
 
+$measure: 20px;
+$duration: 6000ms;
+$delay: math.div($duration, 20);
+$border: 3px;
+
+@debug 'loader animation: ' + ($delay + $duration);
 
 #loading {
-    @include h-100;
-    @include max-width;
-    position: relative;
-    transition: all;
-    transition-duration: $delay;
-    transition-timing-function: ease-in-out;
+    width: $measure;
+    height: $measure;
+    background-color: var(--color-font-primary);
+    border: $border solid;
+    border-radius: $measure;
 
-    &::before, &::after {
-        content: "";
-        display: block;
-        position: absolute;
-        border-radius: $measure;
-        animation-fill-mode: forwards;
-    }
+    position: fixed;
+    z-index: 10;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: -#{$measure};
 
-    &::after {
-        $measure: $measure + ($border * 2);
-        width: $measure;
-        height: $measure;
-        transform: translate(-50%,-50%);
-        top: -#{$measure};
-        left: 50%;
-        background-color: var(--color-font-primary);
-        border: $border solid;
-        animation-name: loading-after;
-        animation-delay: $delay;
-        animation-duration: $duration;
-        animation-timing-function: ease-in;
-    }
+    animation-name: loader;
+    animation-duration: $duration;
+    animation-delay: $delay;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+    transition: opacity $duration;
 
     &::before {
+        $measure: $measure - ($border * 2);
+        content: "";
+        display: block;
         width: 0;
+        position: relative;
+        left: $border;
         height: $measure;
-        transform: translateY(-50%);
-        top: 50%;
-        left: calc(25% + (math.div($border, 2)));
         background-color: var(--color-font-secondary);
-        animation-name: loading-before;
-        animation-delay: (($delay * 2) + (math.div($duration, 100) * 50));
-        animation-duration: (math.div($duration, 100) * 75);
-        animation-timing-function: ease-out;
+        border-radius: math.div($measure, 2);
+
+        animation-name: loader-before;
+        animation-duration: (math.div($duration, 100) * 72) - (math.div($duration, 100) * 5) - $delay * 2;
+        animation-delay: $delay + (math.div($duration, 100) * 28) + $delay * 2;
+        animation-timing-function: ease-in;
+        animation-fill-mode: forwards;
     }
 }
 
-@keyframes loading-after {
+@keyframes loader {
     0% {
         top: -#{$measure};
-        animation-timing-function: ease-in;
+        width: $measure;
     }
-    16% {
+
+    8% {
         top: 50%;
-        animation-timing-function: ease-out;
+        height: $measure;
+        width: $measure;
     }
-    24% {
-        top: 41%;
-        animation-timing-function: ease-in;
+
+    10% {
+        $size: math.div($measure, 2);
+        top: calc(50% + $size);
+        height: $size;
+        width: $size * 3;
+    }
+
+    11% {
+        top: 50%;
+        height: $measure;
+        width: $measure;
+    }
+    15% {
+        top: 40%;
+        height: $measure;
+    }
+    18% {
+        top: 50%;
+        height: $measure;
+        width: $measure;
+    }
+    19% {
+        height: math.div($measure, 2) * 1.5;
+        width: $measure * 1.5;
+    }
+    20% {
+        top: 50%;
+        height: $measure;
+        width: $measure;
+    }
+    22% {
+        top: 48%;
+    }
+    23% {
+        top: 50%;
+        width: $measure;
+        background-color: var(--color-font-primary);
     }
     28% {
-        top: 50%;
-        animation-timing-function: ease-in-out;
-    }
-    32% {
-        top: 50%;
-        background-color: var(--color-font-primary);
-        animation-timing-function: ease-out;
-    }
-    40% {
-        width: $measure + ($border * 2);
+        width: 50%;
         background-color: inherit;
     }
-    50% {
+    98% {
+        top: 50%;
         width: 50%;
         background-color: inherit;
     }
     100% {
         top: 50%;
-        width: 50%;
-        background-color: inherit;
+        width: 0;
     }
 }
 
-@keyframes loading-before {
+@keyframes loader-before {
     0% {
-        width: 0%;
+        width: 0;
+        left: - 1px;
     }
     50% {
-        width: 22.5%;
+        width: 50%;
+    }
+    98% {
+        width: calc(100% + 2px);
+        left: - 1px;
+        background-color: var(--color-font-secondary);
+    }
+    99% {
+        background-color: var(--color-font-secondary);
     }
     100% {
-        width: calc(50% - $border);
+        width: calc(100% + 2px);
+        left: - 1px;
+        background-color: var(--color-font-primary);
     }
 }
+
+// #loading {
+//     @include h-100;
+//     @include max-width;
+//     position: relative;
+//     transition: all;
+//     transition-duration: $delay;
+//     transition-timing-function: ease-in-out;
+
+//     &::before, &::after {
+//         content: "";
+//         display: block;
+//         position: absolute;
+//         border-radius: $measure;
+//         animation-fill-mode: forwards;
+//     }
+
+//     &::after {
+//         $measure: $measure + ($border * 2);
+//         width: $measure;
+//         height: $measure;
+//         transform: translate(-50%,-50%);
+//         top: -#{$measure};
+//         left: 50%;
+//         background-color: var(--color-font-primary);
+//         border: $border solid;
+//         animation-name: loading-after;
+//         animation-delay: $delay;
+//         animation-duration: $duration;
+//         animation-timing-function: ease-in;
+//     }
+
+//     &::before {
+//         width: 0;
+//         height: $measure;
+//         transform: translateY(-50%);
+//         top: 50%;
+//         left: calc(25% + (math.div($border, 2)));
+//         background-color: var(--color-font-secondary);
+//         animation-name: loading-before;
+//         animation-delay: (($delay * 2) + (math.div($duration, 100) * 50));
+//         animation-duration: (math.div($duration, 100) * 75);
+//         animation-timing-function: ease-out;
+//     }
+// }
+
+// @keyframes loading-after {
+//     0% {
+//         top: -#{$measure};
+//         animation-timing-function: ease-in;
+//     }
+//     16% {
+//         top: 50%;
+//         animation-timing-function: ease-out;
+//     }
+//     24% {
+//         top: 41%;
+//         animation-timing-function: ease-in;
+//     }
+//     28% {
+//         top: 50%;
+//         animation-timing-function: ease-in-out;
+//     }
+//     32% {
+//         top: 50%;
+//         background-color: var(--color-font-primary);
+//         animation-timing-function: ease-out;
+//     }
+//     40% {
+//         width: $measure + ($border * 2);
+//         background-color: inherit;
+//     }
+//     50% {
+//         width: 50%;
+//         background-color: inherit;
+//     }
+//     100% {
+//         top: 50%;
+//         width: 50%;
+//         background-color: inherit;
+//     }
+// }
+
+// @keyframes loading-before {
+//     0% {
+//         width: 0%;
+//     }
+//     50% {
+//         width: 22.5%;
+//     }
+//     100% {
+//         width: calc(50% - $border);
+//     }
+// }
+
+
+
+
+
+/* HTML: <div class="loader"></div> */
+// .loader {
+//     width: 120px;
+//     height: 22px;
+//     border-radius: 20px;
+//     color: #514b82;
+//     border: 2px solid;
+//     position: relative;
+// }
+// .loader::before {
+//     content: "";
+//     position: absolute;
+//     margin: 2px;
+//     inset: 0 100% 0 0;
+//     border-radius: inherit;
+//     background: currentColor;
+//     animation: l6 2s infinite;
+// }
+// @keyframes l6 {
+//     100% {
+//         inset: 0;
+//     }
+// }
