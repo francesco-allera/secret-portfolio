@@ -1,0 +1,11 @@
+
+@use '../abstracts/breakpoints' as *;
+
+.container {
+    width: 100%;
+    max-width: map-get($breakpoints, xxxl);
+
+    &-fluid {
+        width: 100%;
+    }
+}

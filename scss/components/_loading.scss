@@ -1,0 +1,110 @@
+
+@use 'sass:math';
+@use '../abstracts/abstracts' as *;
+
+$duration: 3500ms;
+$delay: 200ms;
+$measure: 10px;
+$border: 3px;
+
+// @debug '#loading timing animations: ' + #{
+//     ($delay + $duration) + (($delay * 2) + (math.div($duration, 100) * 50) + (math.div($duration, 100) * 75))
+// };
+@debug '#loading timing animations: ' + #{
+    $delay + math.div($duration, 2) + $delay + (math.div($duration, 100) * 75)
+};
+
+
+#loading {
+    @include h-100;
+    @include max-width;
+    position: relative;
+    transition: all;
+    transition-duration: $delay;
+    transition-timing-function: ease-in-out;
+
+    &::before, &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        border-radius: $measure;
+        animation-fill-mode: forwards;
+    }
+
+    &::after {
+        $measure: $measure + ($border * 2);
+        width: $measure;
+        height: $measure;
+        transform: translate(-50%,-50%);
+        top: -#{$measure};
+        left: 50%;
+        background-color: var(--color-font-primary);
+        border: $border solid;
+        animation-name: loading-after;
+        animation-delay: $delay;
+        animation-duration: $duration;
+        animation-timing-function: ease-in;
+    }
+
+    &::before {
+        width: 0;
+        height: $measure;
+        transform: translateY(-50%);
+        top: 50%;
+        left: calc(25% + (math.div($border, 2)));
+        background-color: var(--color-font-secondary);
+        animation-name: loading-before;
+        animation-delay: (($delay * 2) + (math.div($duration, 100) * 50));
+        animation-duration: (math.div($duration, 100) * 75);
+        animation-timing-function: ease-out;
+    }
+}
+
+@keyframes loading-after {
+    0% {
+        top: -#{$measure};
+        animation-timing-function: ease-in;
+    }
+    16% {
+        top: 50%;
+        animation-timing-function: ease-out;
+    }
+    24% {
+        top: 41%;
+        animation-timing-function: ease-in;
+    }
+    28% {
+        top: 50%;
+        animation-timing-function: ease-in-out;
+    }
+    32% {
+        top: 50%;
+        background-color: var(--color-font-primary);
+        animation-timing-function: ease-out;
+    }
+    40% {
+        width: $measure + ($border * 2);
+        background-color: inherit;
+    }
+    50% {
+        width: 50%;
+        background-color: inherit;
+    }
+    100% {
+        top: 50%;
+        width: 50%;
+        background-color: inherit;
+    }
+}
+
+@keyframes loading-before {
+    0% {
+        width: 0%;
+    }
+    50% {
+        width: 22.5%;
+    }
+    100% {
+        width: calc(50% - $border);
+    }
+}

@@ -1,0 +1,49 @@
+
+$colors: (
+    font-primary: (
+        dark: #e3e3e3,
+        light: #1c1c1c,
+    ),
+    font-secondary: (
+        dark: #00fdd8,
+        light: #02ddaa,
+    ),
+    font-tertiary: (
+        dark: #e3e3e3,
+        light: #1c1c1c,
+    ),
+    page-background: (
+        dark: #1c1c1c,
+        light: #e3e3e3,
+    ),
+    header-background: (
+        dark: #1c1c1c,
+        light: #e3e3e3,
+    ),
+    header-shadow: (
+        dark: #1c1c1c,
+        light: #e3e3e3,
+    ),
+);
+
+$elements: map-keys($colors);
+
+$themes: map-keys(map-get($colors, font-primary));
+
+
+:root {
+    @each $k, $v in $colors {
+        @each $theme in $themes {
+            --color-#{$k}-#{$theme}: #{map-get(map-get($colors, #{$k}), #{$theme})};
+        }
+    }
+}
+
+
+@each $theme in $themes {
+    body[data-theme=#{$theme}] {
+        @each $el in $elements {
+            --color-#{$el}: var(--color-#{$el}-#{$theme});
+        }
+    }
+}
