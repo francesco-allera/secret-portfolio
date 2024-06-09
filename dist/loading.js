@@ -3,7 +3,7 @@ const loader = (animation, delay) => {
     loading.id = 'loading';
     document.body.appendChild(loading);
 
-    window.removeEventListener('focus', load);
+    document.removeEventListener('visibilitychange', load);
 
     setTimeout(() => {
         loading.style.opacity = 0;
@@ -14,5 +14,9 @@ const loader = (animation, delay) => {
 const load = () => loader(6300, 100);
 
 window.addEventListener('load', () => {
-    window.addEventListener('focus', load);
+    if (document.visibilityState === 'visible') {
+        load();
+    } else {
+        document.addEventListener('visibilitychange', load);
+    }
 });
