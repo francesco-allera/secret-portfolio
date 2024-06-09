@@ -7,6 +7,20 @@ const loader = (animation, delay) => {
     }, animation + delay);
 };
 
-window.addEventListener('load', () => {
-    loader(6300, 100);
+document.addEventListener('DOMContentLoaded', () => {
+    let pageIsLoaded = false, pageIsFocused = document.hasFocus();
+
+    window.addEventListener('load', () => {
+        pageIsLoaded = true;
+        if (pageIsLoaded && pageIsFocused) {
+            loader(6300, 100);
+        }
+    });
+
+    window.addEventListener('focus', () => {
+        pageIsFocused = true;
+        if (pageIsLoaded && pageIsFocused) {
+            loader(6300, 100);
+        }
+    });
 });
