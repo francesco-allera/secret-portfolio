@@ -8,5 +8,5 @@ const loader = (animation, delay) => {
 };
 
 window.addEventListener('load', () => {
-    loader(6300, 200);
+    loader(6300, 100);
 });
