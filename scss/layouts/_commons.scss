@@ -8,7 +8,38 @@
 }
 
 html, body {
-    background-color: var(--color-page-background);
-    color: var(--color-font-primary);
     height: 100%;
+    font-size: 16px;
+    color: var(--color-font-primary);
+    background-color: var(--color-page-background);
+}
+
+#app {
+    min-height: 200%;
+    @extend %grid;
+    grid-template-rows: [row1-start]
+                        var(--header-height)
+                        [row1-end row2-start]
+                        auto
+                        [row2-end row3-start]
+                        min-content
+                        [row3-end];
+    grid-template-columns:  [col1-start]
+                            50%
+                            [col1-end col2-start]
+                            50%
+                            [col2-end];
+
+    header, main, footer {
+        grid-column: col1-start / col2-end;
+    }
+    header {
+        grid-row: row1-start / row1-end;
+    }
+    main {
+        grid-row: row2-start / row2-end;
+    }
+    footer {
+        grid-row: row3-start / row3-end;
+    }
 }

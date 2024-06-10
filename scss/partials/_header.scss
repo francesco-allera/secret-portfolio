@@ -1,0 +1,51 @@
+
+@use '../abstracts/abstracts' as *;
+
+$header: (
+    height: (
+        no-scroll: 100px,
+        scroll: 70px,
+    ),
+);
+
+@function header($key, $value) {
+    @return map-get(map-get($header, $key), $value);
+}
+
+:root {
+    --header-height: #{header(height, no-scroll)};
+}
+
+#app.scroll {
+    --header-height: #{header(height, scroll)};
+}
+
+header {
+    @extend %transition;
+
+    height: var(--header-height);
+    width: 100%;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    .container-fluid {
+        position: relative;
+        height: 100%;
+        padding: 1rem;
+    }
+
+    #progress-bar {
+        --height: 1px;
+
+        width: 0;
+        height: var(--height);
+        position: absolute;
+        bottom: calc(var(--height) * -1);
+        left: 0;
+        background-color: var(--color-font-secondary);
+        z-index: 1;
+    }
+}

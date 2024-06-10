@@ -7,7 +7,10 @@ const loader = (animation, delay) => {
 
     setTimeout(() => {
         loading.style.opacity = 0;
-        setTimeout(() => loading.remove(), delay);
+        setTimeout(() => {
+            loading.remove();
+            app.style.display = '';
+        }, delay);
     }, animation + delay);
 };
 

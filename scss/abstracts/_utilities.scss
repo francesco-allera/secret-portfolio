@@ -2,7 +2,7 @@
 @use './breakpoints' as *;
 
 /* FLEX */
-@mixin flex {
+%flex {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -10,31 +10,48 @@
     display: flex;
 }
 
-@mixin flex-center {
-    @include flex();
-    justify-content: center;
-    align-items: center;
+[class^="flex"] {
+    @extend %flex;
 }
 
+$flex: (
+    justify-content: (
+        center, end, flex-end, flex-start, left, normal, right, space-around, space-between, space-evenly, start, stretch
+    ),
+    align-items: (
+        baseline, center, end, flex-end, flex-start, normal, self-end, self-start, start, stretch
+    ),
+);
+
+@each $justify in map-get($flex, justify-content) {
+    @each $align in map-get($flex, align-items) {
+        .flex-#{$justify}-#{$align} {
+            justify-content: $justify;
+            align-items: $align;
+        }
+    }
+}
 
 /* GRID */
-@mixin grid {
+%grid {
     display: -ms-grid;
     display: grid;
 }
 
-
-/* HEIGHT 100vh */
-// @function h-100vh() {
-//     @return (height: 100vh, height: 100dvh);
-// }
-@mixin h-100 {
+/* MEASURES */
+%h-100vh {
     height: 100vh;
     height: 100dvh;
 }
-
-@mixin max-width {
+%max-width {
     max-width: map-get($breakpoints, xxxl);
     margin-left: auto;
     margin-right: auto;
+}
+
+/* TRANSITION */
+%transition {
+    $transition-time: .200s;
+    $transition-delay: .100s;
+    transition: all $transition-time ease-in-out $transition-delay;
 }
