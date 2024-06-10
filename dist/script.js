@@ -21,7 +21,9 @@ window.addEventListener('load', function() {
 window.addEventListener('scroll', () => {
     window.scrollY ? app.classList.add('scroll') : app.classList.remove('scroll');
 
+    const main = document.querySelector('#main');
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     progressBar.style.width = (winScroll / height * 100) + '%';
+    main.innerHTML = '<br>' + winScroll + '<br>' + height + '<br>' + (winScroll / height * 100) + '%';
 });
