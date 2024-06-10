@@ -16,16 +16,15 @@ $loading: (
     position: relative;
     transition: opacity map-get($loading, delay);
 
-    &::before, &::after {
-        content: "";
-        display: block;
-        position: absolute;
-        border-radius: map-get($loading, measure);
+    &-bar, &-bar::after {
         animation-timing-function: ease-in;
         animation-fill-mode: forwards;
     }
 
-    &::after {
+    &-bar {
+        position: absolute;
+        border-radius: map-get($loading, measure);
+
         width: map-get($loading, measure);
         height: map-get($loading, measure);
         border: map-get($loading, border) solid;
@@ -35,26 +34,30 @@ $loading: (
         top: -#{map-get($loading, measure)};
         z-index: 1;
 
-        animation-name: loading-after;
+        animation-name: loading-bar;
         animation-delay: map-get($loading, delay);
         animation-duration: map-get($loading, duration);
-    }
+        overflow: hidden;
 
-    &::before {
-        width: 0%;
-        height: map-get($loading, measure) - (map-get($loading, border) * 2);
-        background-color: var(--color-font-secondary);
-        transform: translateY(-50%);
-        top: 50%;
-        left: map-get($loading, left-before);
+        &::after {
+            content: "";
+            display: block;
 
-        animation-name: loading-before;
-        animation-delay: map-get($loading, delay) + math.div(map-get($loading, duration), 100) * 28 + map-get($loading, delay);
-        animation-duration: map-get($loading, duration) - (math.div(map-get($loading, duration), 100) * 28) - map-get($loading, delay);
+            width: 0;
+            position: relative;
+            left: -2px;
+            top: -2px;
+            height: calc(100% + 4px);
+            background-color: var(--color-font-secondary);
+
+            animation-name: loading-bar-after;
+            animation-delay: map-get($loading, delay) + math.div(map-get($loading, duration), 100) * 28 + map-get($loading, delay);
+            animation-duration: map-get($loading, duration) - (math.div(map-get($loading, duration), 100) * 28) - map-get($loading, delay);
+        }
     }
 }
 
-@keyframes loading-after {
+@keyframes loading-bar {
     0% {
         top: -#{map-get($loading, measure)};
         height: map-get($loading, measure);
@@ -146,35 +149,27 @@ $loading: (
     }
 }
 
-@keyframes loading-before {
+@keyframes loading-bar-after {
     0% {
         width: 0%;
-        left: map-get($loading, left-border);
         background-color: var(--color-font-secondary);
     }
     50% {
-        width: 25%;
+        width: 50%;
         background-color: var(--color-font-secondary);
-        left: calc(#{map-get($loading, left-border)} - 2px);
     }
     98% {
-        width: calc(50% - map-get($loading, border));
+        width: calc(100% + 4px);
         background-color: var(--color-font-secondary);
-        transform: translateY(-50%);
-        left: calc(#{map-get($loading, left-border)} - 2px);
     }
     99% {
-        width: 0%;
+        width: calc(100% + 4px);
         background-color: var(--color-font-primary);
         opacity: 1;
-        transform: translate(-50%,-50%);
-        left: 50%;
     }
     100% {
-        width: 0%;
+        width: 100%;
         background-color: var(--color-font-primary);
         opacity: 0;
-        transform: translate(-50%,-50%);
-        left: 50%;
     }
 }
