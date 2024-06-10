@@ -10,11 +10,16 @@ const progressBar = document.querySelector('#progress-bar');
 
 
 
+
 /* After loading all resources */
 window.addEventListener('load', function() {
     c('All resources loaded in ' + (new Date() - pageStart) + 'ms');
 
     document.body.dataset.theme = localStorage.getItem('theme') ?? 'dark';
+
+/*     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+const footer = document.querySelector('footer');
+footer.innerText = height; */
 });
 
 /* Scroll behaviors */
